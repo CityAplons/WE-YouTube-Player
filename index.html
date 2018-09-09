@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<head>
+	<title>YouTube Player for WallPaperEngine</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="jsonreader.js"></script>
+	<style> 
+		 body{
+			height:100%;
+			background-color: black;
+		 }
+		 #player{
+			position: fixed;
+			top: 0px;
+			left: 0px;
+			bottom: 0px;
+			right: 0px;
+			border: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			pointer-events: none;
+		  }
+		  
+		  #btnPanel{
+			top:10px;
+			width: 110px;
+			margin: 0 auto;
+			height: 30px;
+			background-color: rgba(115, 115, 115,0.2);
+			border-radius:40px;
+			z-index:1;
+		  }
+		  
+		  #hoverArea{
+			top:0;
+			position:fixed;
+			width: 100%;
+			height: 100px;
+			z-index:-1;
+		  }
+		  
+		  .btnDiv{
+			margin-top:10px;
+			padding-top:5px;
+			width:100%;
+			text-align: center;
+		  }
+		  .btn{
+			width:30px;
+			border-radius:20px;
+			background-color: rgba(115, 115, 115,0.8);
+			border: none;
+			color: lightgrey;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			font-weight:bold;
+		  }
+		  button.btn:active{
+			background-color: rgba(115, 115, 115,0.5);
+			transform: translateY(3px);
+		  }
+	  
+	</style>
+</head>
+  
+<body>  
+	<div id="hoverArea">
+		<div id="btnPanel">
+		<div class="btnDiv">
+			<button onclick="prevv();" id="ab" class="btn"><img src="icons/media-step-backward.svg" alt="prev"></button>
+			<button onclick="ppv();" id="pb" class="btn"><img src="icons/media-pause.svg" alt="playpause"></button>
+			<button onclick="nextv();" id="fb" class="btn"><img src="icons/media-step-forward.svg" alt="next"></button>
+		</div>
+	</div>
+	</div>
+	<div style="position: fixed; z-index: -99; width: 100%; height: 100%">
+		<div id="player"></div>
+	</div>
+</body>
+
+<script>
+	//This code loads the IFrame Player API code asynchronously.
+	let tag = document.createElement('script');
+	tag.src = "https://www.youtube.com/iframe_api";
+	let firstScriptTag = document.getElementsByTagName('script')[0];
+	firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	//This function creates an <iframe> (and YouTube player)
+	//    after the API code downloads.
+	let link = localStorage.getItem("linkID");
+	let listl = localStorage.getItem("listID");
+	let cont = localStorage.getItem("useControls");
+	let res = localStorage.getItem("res");
+	let vol = localStorage.getItem("volume");
+	let ytPlayerState;
+	//Player initialization
+	function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '100%',
+          width: '100%',
+          playerVars: {
+					rel: 0,
+                    autoplay: 1,
+                    loop: 1,
+                    controls: cont,
+                    showinfo: 0,
+                    autohide: 1,
+                    modestbranding: 0,
+                    vq: res},
+          videoId: link,
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+          }
+        });
+	}
+	//Player ready status handler
+    function onPlayerReady(event) {
+		//event.target.playVideo();
+		event.target.setVolume(vol);
+		ytPlayerState = event.data;
+		if(cont==1 || cont=="true")
+			$("#player").css("pointer-events","auto");
+		else 
+			$("#player").css("pointer-events","none");
+		
+		if(listl == "" || listl == null || listl == "null"){
+			$("#fb").hide();
+			$("#ab").hide();
+		}
+		else {
+			player.loadPlaylist({list:listl,
+						 listType:"playlist",
+						 suggestedQuality:res});
+			$("#fb").show();
+			$("#ab").show();
+		}
+    }
+	//Player change status handler
+    function onPlayerStateChange(event) {
+        ytPlayerState = event.data;
+    }
+	
+	//play/pause video func
+	function ppv(e) {
+		if (ytPlayerState == 1){
+			player.pauseVideo();
+			$("#pb").html('<img src="icons/media-play.svg" alt="playpause">');
+		}
+		else if (ytPlayerState == 2 || ytPlayerState == -1){
+			player.playVideo();
+			$("#pb").html('<img src="icons/media-pause.svg" alt="playpause">');
+		}
+	}
+	
+	//previous video
+	function prevv(e) {
+		player.previousVideo()
+	}
+	
+	//next video
+	function nextv(e) {
+		player.nextVideo();
+	}
+	
+	//control panel hide logic
+	//	$("#btnPanel").show();
+	$(document).ready(function () {
+        $(document).on('mouseenter', '#hoverArea', function () {
+            $("#btnPanel").fadeIn( 100 );
+        }).on('mouseleave', '#hoverArea', function () {
+            $("#btnPanel").fadeOut( 100 );
+        });
+    });
+
+// D:	
+ </script>

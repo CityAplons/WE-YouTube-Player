@@ -1,0 +1,79 @@
+{
+	"description" : "Let me introduce you Youtube player for Wallpaper Engine.\nYou can setup your favorite videos on desktop, and watch it!\n\nNext update will be 15 of october. (New feutures: Caching timeline of video, chekbox for enabling video controls and more)\n\nChangelog:\n - 8.10.17 - Fixed applying video, now on fly!",
+	"file" : "index.html",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"customtext" : 
+			{
+				"text" : "Insert YouTube Link:",
+				"type" : "textinput",
+				"value" : "https://www.youtube.com/watch?v=wTcNtgA6gHs"
+			},
+			"custombool" : 
+			{
+				"text" : "Mute Video",
+				"type" : "bool",
+				"value" : false
+			},
+			"custombool2" : 
+			{
+				"text" : "Show controls",
+				"type" : "bool",
+				"value" : false
+			},
+			"customint" : 
+			{
+				"editable" : true,
+				"max" : 100,
+				"min" : 0,
+				"text" : "Sound Volume",
+				"type" : "slider",
+				"value" : 20
+			},
+			"customcombo" : 
+			{
+				"options" : 
+				[
+					{
+						"label" : "hd1080",
+						"value" : 1
+					},
+					{
+						"label" : "default",
+						"value" : 2
+					},
+					{
+						"label" : "high res",
+						"value" : 3
+					},
+					{
+						"label" : "medium res",
+						"value" : 4
+					},
+					{
+						"label" : "low res",
+						"value" : 5
+					}
+				],
+				"text" : "Video Quality",
+				"type" : "combo",
+				"value" : 2
+			},
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "Scheme color",
+				"type" : "color",
+				"value" : "0.8901960784313725 0.2235294117647059 0.08627450980392157"
+			}
+		}
+	},
+	"preview" : "preview.png",
+	"tags" : [ "Unspecified" ],
+	"title" : "YouTube Player",
+	"type" : "web",
+	"visibility" : "public",
+	"workshopid" : 1162222508
+}
